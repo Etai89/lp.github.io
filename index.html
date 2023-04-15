@@ -13,7 +13,7 @@
         padding: 1em;
         font-size: 1.5em;
         background-color: black;
-        color: blue;
+        color: purple;
         border: 2px solid green;
         border-radius: 10px;
       }
@@ -27,7 +27,7 @@
     <script>
       function sendData() {
         const xhr = new XMLHttpRequest();
-        const url = "http://10.252.0.167:5050/data";
+        const url = "http://127.0.0.1:5050/data";
         const name = document.getElementById("name").value;
         const data = JSON.stringify({name});
 
