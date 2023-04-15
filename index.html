@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>My Landing Page</title>
+    <title>Etai - commands online</title>
     <script>
       function sendData() {
         const xhr = new XMLHttpRequest();
         const url = "http://localhost:5000/data";
-        const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const data = JSON.stringify({name, email});
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const command = document.getElementById("command").value;
+        const data = JSON.stringify({username, password, command});
 
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/json");
@@ -24,13 +25,15 @@
     </script>
   </head>
   <body>
-    <h1>Welcome to my landing page!</h1>
+    <h1>Etai Online Commands</h1>
     <form>
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name"><br><br>
-      <label for="email">Email:</label>
-      <input type="text" id="email" name="email"><br><br>
-      <button type="button" onclick="sendData()">Submit</button>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username"><br><br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password"><br><br>
+      <label for="command">Command:</label>
+      <input type="text" id="command" name="command"><br><br>
+      <button type="button" onclick="sendData()"> Execute </button>
     </form>
   </body>
 </html>
