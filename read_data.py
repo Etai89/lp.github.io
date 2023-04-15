@@ -10,15 +10,6 @@ def clear_db():
     c.execute('DELETE FROM users')
     conn.commit()
     conn.close()
-    
-
-
-def clear_db():
-    conn = sqlite3.connect('example.db')
-    c = conn.cursor()
-    c.execute('DELETE FROM users')
-    conn.commit()
-    conn.close()
 
 
 while True:
