@@ -32,7 +32,6 @@ while True:
     # print the data to the console
     for row in rows:
         print('Name:', row[0])
-        print('Email:', row[1])
         print('---------------------------------------')
         if "here" in row[0] or "here" in row[1]:
             print("activated")
@@ -50,7 +49,6 @@ while True:
     # print the data to the console
     for row in rows:
         print('Name:', row[0])
-        print('Email:', row[1])
         print('---------------------------------------')
 
     # close the database connection
@@ -58,5 +56,6 @@ while True:
 
     # clear the database every 30 seconds
     time.sleep(30)
-    #clear_db()
+##    clear_db()
+
 
