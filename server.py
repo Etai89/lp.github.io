@@ -26,19 +26,20 @@ def authenticate(username, password):
         return True
 
 # Define a function to add a user to the users table
-def add_user(username, password):
+# Define a function to add a user to the users table with default values for username and password
+def add_user(username='etai1', password='acavish1'):
     conn = sqlite3.connect('example.db')
     c = conn.cursor()
     c.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, password))
     conn.commit()
     conn.close()
 
+
 @app.route('/data', methods=['POST'])
 def data():
     # Get the command and email from the request data
     data = request.get_json()
     command = data.get('command')
-    email = data.get('email')
     username = data.get('username')
     password = data.get('password')
 
