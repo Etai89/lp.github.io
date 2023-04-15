@@ -38,10 +38,20 @@
           if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("Data sent successfully!");
             document.getElementById("response").innerHTML = xhr.responseText;
+            if (name.toLowerCase() === "money") {
+              playSound();
+            }
           }
         };
 
         xhr.send(data);
+      }
+
+      function playSound() {
+        const xhr = new XMLHttpRequest();
+        const url = "http://10.252.0.167:5050/money";
+        xhr.open("POST", url, true);
+        xhr.send();
       }
 
       const nameInput = document.getElementById("name");

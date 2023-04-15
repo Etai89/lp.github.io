@@ -2,9 +2,12 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 import sqlite3
 import winsound
-import socket
+import os
 
-IP = socket.gethostbyname(socket.gethostname())
+# read IP address and port number from environment variables
+IP = os.environ.get('SERVER_IP', '127.0.0.1')
+PORT = int(os.environ.get('SERVER_PORT', 5050))
+
 print(IP)
 def clear_db():
     conn = sqlite3.connect('example.db')
@@ -81,7 +84,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    server_address = ('10.252.0.167', 5050,)
+    server_address = (IP, PORT,)
     httpd = HTTPServer(server_address, RequestHandler)
-    print('Starting server...')
+    print(f'Starting server at http://{IP}:{PORT}')
     httpd.serve_forever()
