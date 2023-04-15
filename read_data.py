@@ -1,6 +1,6 @@
 import sqlite3
 import time
-<<<<<<< HEAD
+
 import winsound
 
 
@@ -11,7 +11,7 @@ def clear_db():
     conn.commit()
     conn.close()
     
-=======
+
 
 def clear_db():
     conn = sqlite3.connect('example.db')
@@ -20,14 +20,14 @@ def clear_db():
     conn.commit()
     conn.close()
 
->>>>>>> 1355b04f5c0460bc9183f3c08e83c2d1704b7244
+
 while True:
     # connect to the database and read data from the 'users' table
     conn = sqlite3.connect('example.db')
     c = conn.cursor()
     c.execute('SELECT * FROM users')
     rows = c.fetchall()
-<<<<<<< HEAD
+
 
     # print the data to the console
     for row in rows:
@@ -45,7 +45,7 @@ while True:
     conn.close()
     time.sleep(5)
 
-=======
+
 
     # print the data to the console
     for row in rows:
@@ -59,4 +59,4 @@ while True:
     # clear the database every 30 seconds
     time.sleep(30)
     #clear_db()
->>>>>>> 1355b04f5c0460bc9183f3c08e83c2d1704b7244
+
