@@ -5,7 +5,7 @@ import winsound
 import os
 
 # read IP address and port number from environment variables
-IP = os.environ.get('SERVER_IP', '10.252.0.167')
+IP = os.environ.get('SERVER_IP', '127.0.0.1')
 PORT = int(os.environ.get('SERVER_PORT', 5050))
 
 print(IP)
