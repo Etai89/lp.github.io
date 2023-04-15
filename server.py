@@ -1,68 +1,43 @@
-from flask import Flask, request, jsonify, make_response
-import sqlite3
+from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
+import sqlite3
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your-secret-key-here'
+class RequestHandler(BaseHTTPRequestHandler):
+    def do_POST(self):
+        content_len = int(self.headers.get('Content-Length'))
+        post_body = self.rfile.read(content_len)
+        data = json.loads(post_body)
 
-# Create a users table in the database to store username and password
-conn = sqlite3.connect('example.db')
-c = conn.cursor()
-c.execute('''CREATE TABLE IF NOT EXISTS users
-             (username TEXT, password TEXT)''')
-conn.commit()
-conn.close()
+        print("Name:", data['name'])
+        print("Email:", data['email'])
 
-# Define a function to authenticate users
-def authenticate(username, password):
-    conn = sqlite3.connect('example.db')
-    c = conn.cursor()
-    c.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password))
-    user = c.fetchone()
-    conn.close()
-    if user is None:
-        return False
-    else:
-        return True
+        # connect to the database and insert the data
+        conn = sqlite3.connect('example.db')
+        c = conn.cursor()
+        c.execute('CREATE TABLE IF NOT EXISTS users (name TEXT, email TEXT)')
+        c.execute('INSERT INTO users VALUES (?, ?)', (data['name'], data['email']))
+        conn.commit()
+        conn.close()
 
-# Define a function to add a user to the users table
-def add_user(username, password):
-    conn = sqlite3.connect('example.db')
-    c = conn.cursor()
-    c.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, password))
-    conn.commit()
-    conn.close()
+        # send a response to the client
+        self.send_response(200)
+        self.send_header('Content-type', 'text/plain')
+        self.end_headers()
+        self.wfile.write(b'Success')
 
-@app.route('/data', methods=['POST'])
-def data():
-    # Get the command and email from the request data
-    data = request.get_json()
-    command = data.get('command')
-    email = data.get('email')
-    username = data.get('username')
-    password = data.get('password')
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'POST')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.end_headers()
 
-    # Authenticate the user
-    if not authenticate(username, password):
-        return make_response(jsonify({'error': 'Unauthorized access'}), 401)
 
-    # connect to the database and insert the data into the 'commands' table
-    conn = sqlite3.connect('example.db')
-    c = conn.cursor()
-    c.execute('INSERT INTO commands (command, email) VALUES (?, ?)', (command, email))
-    conn.commit()
-    conn.close()
-
-    return jsonify({'success': True})
-
-# Define a route to add a new user to the users table
-@app.route('/add_user', methods=['POST'])
-def add_user_route():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
-    add_user(username, password)
-    return jsonify({'success': True})
+server = HTTPServer(('localhost', 5000), RequestHandler)
+server.serve_forever()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    server_address = ('', 8000)
+    httpd = HTTPServer(server_address, RequestHandler)
+    print('Starting server...')
+    httpd.serve_forever()
