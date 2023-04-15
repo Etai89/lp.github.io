@@ -79,7 +79,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    server_address = ('10.100.102.1', 5000)
+    server_address = ('185.37.149.166', 5000)
     httpd = HTTPServer(server_address, RequestHandler)
     print('Starting server...')
     httpd.serve_forever()
