@@ -1,14 +1,35 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
-    <title>Etai - commands online</title>
+    <title>Etai - Commands Online</title>
+    <style>
+      body {
+        background-color: black;
+        color: green;
+        text-align: center;
+        font-size: 2em;
+      }
+      input[type=text], button[type=button] {
+        padding: 1em;
+        font-size: 1.5em;
+        background-color: black;
+        color: green;
+        border: 2px solid green;
+        border-radius: 10px;
+      }
+      button[type=button] {
+        margin-top: 1em;
+      }
+      #response {
+        margin-top: 1em;
+      }
+    </style>
     <script>
       function sendData() {
         const xhr = new XMLHttpRequest();
         const url = "http://localhost:5000/data";
         const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const data = JSON.stringify({name, email});
+        const data = JSON.stringify({name});
 
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/json");
@@ -16,11 +37,21 @@
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4 && xhr.status === 200) {
             console.log("Data sent successfully!");
+            document.getElementById("response").innerHTML = xhr.responseText;
           }
         };
 
         xhr.send(data);
       }
+
+      const nameInput = document.getElementById("name");
+      const executeButton = document.querySelector("button[type=button]");
+      nameInput.addEventListener("keydown", function(event) {
+        if (event.keyCode === 13) {
+          event.preventDefault();
+          executeButton.click();
+        }
+      });
     </script>
   </head>
   <body>
@@ -28,7 +59,8 @@
     <form>
       <label for="name">Command:</label>
       <input type="text" id="name" name="name"><br><br>
-      <button type="button" onclick="sendData()"> Execute </button>
+      <button type="button" onclick="sendData()">Execute</button>
     </form>
+    <div id="response"></div>
   </body>
 </html>
